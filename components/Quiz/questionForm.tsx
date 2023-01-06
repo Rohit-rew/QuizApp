@@ -1,32 +1,36 @@
 import React from "react";
 
-export default function QuestionForm() {
-  const [selectedAnswers, setSelectedAnswers] = React.useState({
+
+//types 
+import { selectionType } from "../../lib/types/type";
+type submitQuestion = (e:React.FormEvent<HTMLFormElement> , selectedAnswers:selectionType)=>void
+type propTypes ={
+    submitQuestion:submitQuestion
+}
+
+
+// functional component starts
+export default function QuestionForm({submitQuestion} : propTypes) {
+  const [selectedAnswers, setSelectedAnswers] = React.useState<selectionType>({
     1: false,
     2: false,
     3: false,
     4: false,
   });
 
+  // need to fix the below type error
+  // move the below function to utils
   const changeHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const value = Number(e.currentTarget.name) 
-
         setSelectedAnswers(preval=>{
             return {...preval , [value] : !preval[value] }
         })
-
   }
 
-
-  const SubmitQuestion = (e:React.FormEvent<HTMLFormElement>)=>{
-    e.preventDefault()
-    console.log(selectedAnswers)
-
-  }
 
   return (
     <form
-        onSubmit={(e) => SubmitQuestion(e)}
+        onSubmit={(e) => submitQuestion(e , selectedAnswers)}
       className="questionArea w-full bg-white p-3 rounded flex flex-col justify-between max-w-xl gap-5 shadow"
     >
       <h3 className="question">Which of the following is a number ?</h3>
@@ -90,3 +94,4 @@ export default function QuestionForm() {
     </form>
   );
 }
+// functional component ends
