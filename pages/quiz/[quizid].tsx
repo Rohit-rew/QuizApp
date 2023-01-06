@@ -3,6 +3,10 @@ import Image from "next/image";
 import QuizInfoTable from "../../components/Quiz/quizInfoTable";
 
 export default function Quiz() {
+
+    // if the user is logged in show the quiz details otherwise send him to login route ==>
+
+
   return (
     <div className="dashboard background-gradient background-image w-full min-h-screen bg-green-500 flex flex-col gap- items-center relative p-5 sm:justify-around">
       <h1 className="text-center text-5xl font-semibold leading-20">
@@ -25,3 +29,6 @@ export default function Quiz() {
     </div>
   );
 }
+
+
+
