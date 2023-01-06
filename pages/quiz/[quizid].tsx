@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import QuizInfoTable from "../../components/Quiz/quizInfoTable";
 
 export default function Quiz() {
   return (
@@ -12,28 +13,9 @@ export default function Quiz() {
       <div className="flex flex-col w-full gap-16 max-w-xl ">
         <div className="quizInfo w-full flex bg-white rounded p-4 flex flex-col gap-5">
           <p className="text-3xl text-center w-full">Quiz Info</p>
-
-          <table className="border text-left rounded shadow">
-            <tbody>
-              <tr className="border ">
-                <th className="border p-1">Quiz Name</th>
-                <th className="border font-light p-1">Name of the quiz</th>
-              </tr>
-              <tr className="border ">
-                <th className="border p-1">Total Questions</th>
-                <th className="border font-light p-1">10</th>
-              </tr>
-
-              <tr className="border">
-                <th className="border p-1">Category</th>
-                <th className="border font-light p-1">Javascript</th>
-              </tr>
-              <tr className="border">
-                <th className="border p-1">Created By</th>
-                <th className="border font-light p-1">Satpal mcCullum</th>
-              </tr>
-            </tbody>
-          </table>
+        
+            {/* Need to send the quiz data to teh quiz table */}
+          <QuizInfoTable />
         </div>
 
         <button className="border border-white rounded-2xl shadow py-4 text-xl bg-white font-semibold hover:border-red-500 w-full">
