@@ -23,26 +23,40 @@ export default function QuizStarted() {
   const [currentScore, setcurrentScore] = React.useState(0);
 
 
- 
-
   const submitQuestion = (
     e: React.FormEvent<HTMLFormElement>,
-    selectedAnswers: selectionType
+    selectedAnswers: selectionType,
+    setSelectedAnswers :React.Dispatch<React.SetStateAction<selectionType>>
   ) => {
     e.preventDefault();
+    // resets the form
+    setSelectedAnswers({
+      1: false,
+      2: false,
+      3: false,
+      4: false,
+    })
+
     const selectedAnsArray = getAnsArray(selectedAnswers);
     const isCorrectAns = ansValidator(selectedAnsArray , questionSet[currentQuestion].answer )
 
+    setAttemptedQuestions(preval=>preval+1)
+    setRemainingQuestions(preval=>preval-1)
+
     if(isCorrectAns){
       // increase the current score score by 5 pts
-      // setcurrentScore(preval=>preval+5)
-      console.log("answer is correct")
+      setcurrentScore(preval=>preval+5)
+      // increase the current question
+      setCurrentQuestion(preval=>preval+1)
       // increase the dificulty by 1
-
+      setCurrentQuestionDifficulty(preval=>preval+1)
     }else{
       // decrease the current score by 2 pts
-      console.log("answer is wrong")
+      setcurrentScore(preval=>preval-2)
+      // increase the current question
+      setCurrentQuestion(preval=>preval-1)
       // decrease the difficulty level by 1
+      setCurrentQuestionDifficulty(preval=>preval-1)
     }
 
 

@@ -1,5 +1,5 @@
 
-type questionType = {
+export type questionType = {
     ques : String,
     choice : {
         1: String,
@@ -53,7 +53,7 @@ export const questionSet:questionType[] = [
 
     },
     {
-        ques : "which of the below are numbers",
+        ques : "which of the below are not numbers",
         choice : {
             1 : "A",
             2: "4",
@@ -118,7 +118,7 @@ export const questionSet:questionType[] = [
 
     },
     {
-        ques : "Which of the below are colours",
+        ques : "Which of the below is not a colour",
         choice : {
             1 : "Red",
             2: "Green",

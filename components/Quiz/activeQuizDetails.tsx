@@ -40,7 +40,7 @@ export default function ActiveQuizDetails({totalQuestions , attemptedQuestions ,
             {" "}
           </div>
           <h2 className="absolute top-0 font-bold w-full h-full text-center flex justify-center items-center">
-            Current Ques Difficulty : 5
+            Current Ques Difficulty : {currentDifficultyLevel}
           </h2>
         </div>
       </div>
