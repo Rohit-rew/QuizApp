@@ -1,12 +1,14 @@
 import Link from "next/link";
 import React from "react";
 import RegisterForm from "../../components/login/registerForm";
+import SuccessRegistrationMessage from "../../components/successRegistrationMessage";
 
 export default function UserRegister() {
     const[nameErrorMsg , setNameErrorMsg] = React.useState<String|null>(null)
     const[emailErrorMsg , setEmailErrorMsg] = React.useState<String|null>(null)
     const[passErrorMsg , setpassErrorMsg] = React.useState<String|null>(null)
     const[confirmPassErrorMsg , setconfirmPassErrorMsg] = React.useState<String|null>(null)
+    const [isregistered , setIsregistered] = React.useState<Boolean>(false)
 
     const registerUser = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
@@ -29,7 +31,10 @@ export default function UserRegister() {
             console.log("submited")
             console.log(email, password , confirmPassword)
             // make api call here
-            // send to another route
+
+
+            // on successfull register show user the success message and show a link to go to login
+            setIsregistered(true)
         }else if(!name && !email && !password && confirmPassword){
             setEmailErrorMsg("please enter email")
             setpassErrorMsg("please enter password")
@@ -62,6 +67,7 @@ export default function UserRegister() {
           <p className="underline">Already a user ? Login here</p>
         </Link>
       </div>
+      {isregistered && <SuccessRegistrationMessage registeredAs={"User"} route={"/accounts/userlogin"}/>}
     </div>
   );
 }

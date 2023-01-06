@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import RegisterForm from "../../components/login/registerForm";
+import SuccessRegistrationMessage from "../../components/successRegistrationMessage";
 
 export default function AdminRegister() {
   const [nameErrorMsg, setNameErrorMsg] = React.useState<String | null>(null);
@@ -8,6 +9,7 @@ export default function AdminRegister() {
   const [passErrorMsg, setpassErrorMsg] = React.useState<String | null>(null);
   const [confirmPassErrorMsg, setconfirmPassErrorMsg] =
     React.useState<String | null>(null);
+  const [isregistered , setIsregistered] = React.useState<Boolean>(false)
 
   const registerAdmin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,7 +32,8 @@ export default function AdminRegister() {
       console.log("submited");
       console.log(email, password, confirmPassword);
       // make api call here
-      // send to another route
+      // on successfull registration show user the message of successfull registration with a link to go to   admin login
+      setIsregistered(true)
     } else if (!name) {
       setNameErrorMsg("Please enter name");
     } else if (!email) {
@@ -58,9 +61,10 @@ export default function AdminRegister() {
         />
 
         <Link href={"/accounts/adminlogin"}>
-          <p className="underline">Already a user ? Login here</p>
+          <p className="underline">Already a Admin ? Login here</p>
         </Link>
       </div>
+      {isregistered && <SuccessRegistrationMessage registeredAs={"Admin"} route={"/accounts/adminlogin"}/>}
     </div>
   );
 }
