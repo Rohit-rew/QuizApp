@@ -1,4 +1,3 @@
-import { addSyntheticLeadingComment } from "typescript";
 import { selectionType } from "./types/type";
 
 export const handleClickEvent = (
@@ -14,7 +13,6 @@ export const handleClickEvent = (
 export const getAnsArray = (selectedAnswers: selectionType) => {
   let ansArray = [];
   for (let property in selectedAnswers) {
-    console.log(property);
     if (selectedAnswers[Number(property)] == true) {
       ansArray.push(Number(property));
     }

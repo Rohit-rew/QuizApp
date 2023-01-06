@@ -101,7 +101,7 @@ export default function QuestionForm({
             checked={selectedAnswers[4]}
             onChange={(e) => changeHandler(e)}
           />
-          <label className="w-full bg-red-300" htmlFor="4">
+          <label className="w-full " htmlFor="4">
             {" "}
             {currentQuestion.choice[4]}
           </label>

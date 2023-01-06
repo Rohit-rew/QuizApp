@@ -36,7 +36,7 @@ export default function ActiveQuizDetails({totalQuestions , attemptedQuestions ,
         </table>
 
         <div className="w-full bg-red-100 rounded h-8 border relative">
-          <div style={{ width: `${currentDifficultyLevel/10*100}%` }} className=" bg-red-500 h-full">
+          <div style={{ width: `${currentDifficultyLevel/10*100}%` }} className={`${currentDifficultyLevel>5 ? "bg-green-500" : "bg-red-500" } h-full`}>
             {" "}
           </div>
           <h2 className="absolute top-0 font-bold w-full h-full text-center flex justify-center items-center">

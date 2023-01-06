@@ -4,6 +4,8 @@ import React from "react";
 import DashFooter from "../../components/DashFooter";
 import QuestionForm from "../../components/Quiz/questionForm";
 import ActiveQuizDetails from "../../components/Quiz/activeQuizDetails";
+import ScoreGraphModal from "../../components/scoreGraphModal";
+
 
 //types
 import { selectionType } from "../../lib/types/type";
@@ -12,16 +14,25 @@ import { selectionType } from "../../lib/types/type";
 import { ansValidator, getAnsArray } from "../../lib/utils";
 import { questionSet } from "../../lib/questions";
 
+//context
+import { UserContext } from "../../lib/contextAPI/userContext";
+
 export default function QuizStarted() {
   
   const [currentQuestionDifficulty, setCurrentQuestionDifficulty] = React.useState(5);
   const [currentQuestion , setCurrentQuestion] = React.useState(4)
   const [attemptedQuestions, setAttemptedQuestions] = React.useState(0);
-  const [remainingQuestions, setRemainingQuestions] = React.useState(
-    questionSet.length
-  );
+  const [remainingQuestions, setRemainingQuestions] = React.useState(questionSet.length);
   const [currentScore, setcurrentScore] = React.useState(0);
+  const [scoreArray , setScoreArray] = React.useState<Number[]>([])
 
+  const {setGraphModal , isGraphModalOpen} = React.useContext(UserContext)
+
+  React.useEffect(()=>{
+    setScoreArray(preval=>{
+      return [...preval , currentScore]
+    })
+  },[currentScore])
 
   const submitQuestion = (
     e: React.FormEvent<HTMLFormElement>,
@@ -43,6 +54,19 @@ export default function QuizStarted() {
     setAttemptedQuestions(preval=>preval+1)
     setRemainingQuestions(preval=>preval-1)
 
+    // quiz end logic
+    if(currentQuestionDifficulty==10 && isCorrectAns){
+      console.log("quiz ended -> answered diff level 10 ques correctly")
+      // show graph to the user
+      setGraphModal(true)
+      return
+    }else if(currentQuestionDifficulty==1 && !isCorrectAns){
+      console.log("quiz ended -> answered diff level 1 ques Wrong")
+      // show graph to the user
+      setGraphModal(true)
+      return
+    }
+
     if(isCorrectAns){
       // increase the current score score by 5 pts
       setcurrentScore(preval=>preval+5)
@@ -58,7 +82,6 @@ export default function QuizStarted() {
       // decrease the difficulty level by 1
       setCurrentQuestionDifficulty(preval=>preval-1)
     }
-
 
   };
 
@@ -78,6 +101,7 @@ export default function QuizStarted() {
       <QuestionForm submitQuestion={submitQuestion} currentQuestion={questionSet[currentQuestion]} />
 
       <DashFooter />
+      {isGraphModalOpen && <ScoreGraphModal scoreArray={scoreArray} showCrossBtn={false} showGoToDashBtn={true}/> }
     </div>
   );
 }
