@@ -2,15 +2,17 @@ import React from "react";
 
 
 //types 
+import { questionType } from "../../lib/questions";
 import { selectionType } from "../../lib/types/type";
 type submitQuestion = (e:React.FormEvent<HTMLFormElement> , selectedAnswers:selectionType)=>void
 type propTypes ={
     submitQuestion:submitQuestion
+    currentQuestion : questionType
 }
 
 
 // functional component starts
-export default function QuestionForm({submitQuestion} : propTypes) {
+export default function QuestionForm({submitQuestion , currentQuestion} : propTypes) {
   const [selectedAnswers, setSelectedAnswers] = React.useState<selectionType>({
     1: false,
     2: false,
@@ -33,7 +35,7 @@ export default function QuestionForm({submitQuestion} : propTypes) {
         onSubmit={(e) => submitQuestion(e , selectedAnswers)}
       className="questionArea w-full bg-white p-3 rounded flex flex-col justify-between max-w-xl gap-5 shadow"
     >
-      <h3 className="question">Which of the following is a number ?</h3>
+      <h3 className="question">{currentQuestion.ques}</h3>
 
       <div className="options flex  flex-col gap-2">
         <div className="flex items-center gap-3">
@@ -45,7 +47,7 @@ export default function QuestionForm({submitQuestion} : propTypes) {
             checked={selectedAnswers[1]}
             onChange={(e)=>changeHandler(e)}
           />
-          <label className="w-full" htmlFor="one"> I have a bike</label>
+          <label className="w-full" htmlFor="one"> {currentQuestion.choice[1]}</label>
         </div>
         <hr></hr>
         <div className="flex items-center gap-3">
@@ -57,7 +59,7 @@ export default function QuestionForm({submitQuestion} : propTypes) {
             checked={selectedAnswers[2]}
             onChange={(e)=>changeHandler(e)}
           />
-          <label className="w-full" htmlFor="2"> I have a bike</label>
+          <label className="w-full" htmlFor="2"> {currentQuestion.choice[2]}</label>
         </div>
         <hr></hr>
         <div className="flex items-center gap-3">
@@ -69,7 +71,7 @@ export default function QuestionForm({submitQuestion} : propTypes) {
             checked={selectedAnswers[3]}
             onChange={(e)=>changeHandler(e)}
           />
-          <label className="w-full" htmlFor="3"> I have a bike</label>
+          <label className="w-full" htmlFor="3"> {currentQuestion.choice[3]}</label>
         </div>
         <hr></hr>
         <div className="flex items-center gap-3">
@@ -81,7 +83,7 @@ export default function QuestionForm({submitQuestion} : propTypes) {
             checked={selectedAnswers[4]}
             onChange={(e)=>changeHandler(e)}
           />
-          <label className="w-full" htmlFor="4"> I have a bike</label>
+          <label className="w-full" htmlFor="4"> {currentQuestion.choice[4]}</label>
         </div>
       </div>
 

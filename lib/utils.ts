@@ -1,23 +1,40 @@
 import { addSyntheticLeadingComment } from "typescript";
 import { selectionType } from "./types/type";
 
-
-export const handleClickEvent = (e: MouseEvent , toggleFunc : React.Dispatch<React.SetStateAction<Boolean>> ,element : String)=> {
-
-    if (e.target!.matches(element)) {
-        toggleFunc(false);
-    }
-}
-
-
-export const getAnsArray = (selectedAnswers:selectionType)=>{
-    let ansArray = []
-    for (let property in selectedAnswers){
-      console.log(property)
-      if(selectedAnswers[Number(property)] == true){
-        ansArray.push(Number(property))
-      }
-    }
-    return ansArray
+export const handleClickEvent = (
+  e: MouseEvent,
+  toggleFunc: React.Dispatch<React.SetStateAction<Boolean>>,
+  element: String
+) => {
+  if (e.target!.matches(element)) {
+    toggleFunc(false);
   }
-  
+};
+
+export const getAnsArray = (selectedAnswers: selectionType) => {
+  let ansArray = [];
+  for (let property in selectedAnswers) {
+    console.log(property);
+    if (selectedAnswers[Number(property)] == true) {
+      ansArray.push(Number(property));
+    }
+  }
+  return ansArray;
+};
+
+export const ansValidator = (
+  selectedAnsArray: Number[],
+  actualAnsArray: Number[]
+): Boolean => {
+  // if there are multiple answers and the user has selected only 1 the answer is wrong
+  // if there is 1 ans and user has selected multiple then also the ans is wrong
+  if (selectedAnsArray.length != actualAnsArray.length) return false;
+  // compare every selected answer with the actual answers if and of them mismatch return false
+  for (let i in selectedAnsArray) {
+    if (selectedAnsArray[i] != actualAnsArray[i]) {
+      return false;
+    }
+  }
+  // if answers match
+  return true;
+};

@@ -3,17 +3,19 @@ import React from "react";
 //components
 import DashFooter from "../../components/DashFooter";
 import QuestionForm from "../../components/Quiz/questionForm";
+import ActiveQuizDetails from "../../components/Quiz/activeQuizDetails";
 
 //types
 import { selectionType } from "../../lib/types/type";
 
 // utils imports
-import { getAnsArray } from "../../lib/utils";
+import { ansValidator, getAnsArray } from "../../lib/utils";
 import { questionSet } from "../../lib/questions";
-import ActiveQuizDetails from "../../components/Quiz/activeQuizDetails";
 
 export default function QuizStarted() {
-  const [currentQuestion, setCurrentQuestion] = React.useState(5);
+  
+  const [currentQuestionDifficulty, setCurrentQuestionDifficulty] = React.useState(5);
+  const [currentQuestion , setCurrentQuestion] = React.useState(4)
   const [attemptedQuestions, setAttemptedQuestions] = React.useState(0);
   const [remainingQuestions, setRemainingQuestions] = React.useState(
     questionSet.length
@@ -21,19 +23,7 @@ export default function QuizStarted() {
   const [currentScore, setcurrentScore] = React.useState(0);
 
 
-  const ansValidator = (selectedAnsArray:Number[] , actualAnsArray:Number[]):Boolean=>{
-    // if there are multiple answers and the user has selected only 1 the answer is wrong 
-    // if there is 1 ans and user has selected multiple then also the ans is wrong
-    if(selectedAnsArray.length != actualAnsArray.length) return false
-    // compare every selected answer with the actual answers if and of them mismatch return false
-    for(let i in selectedAnsArray){
-      if(selectedAnsArray[i] != actualAnsArray[i]){
-        return false
-      }
-    }
-    // if answers match
-    return true
-  }
+ 
 
   const submitQuestion = (
     e: React.FormEvent<HTMLFormElement>,
@@ -45,9 +35,13 @@ export default function QuizStarted() {
 
     if(isCorrectAns){
       // increase the current score score by 5 pts
+      // setcurrentScore(preval=>preval+5)
+      console.log("answer is correct")
       // increase the dificulty by 1
+
     }else{
       // decrease the current score by 2 pts
+      console.log("answer is wrong")
       // decrease the difficulty level by 1
     }
 
@@ -64,10 +58,10 @@ export default function QuizStarted() {
         remainingQuestions={remainingQuestions.toString()}
         totalQuestions={questionSet.length.toString()}
         currentScore={currentScore.toString()}
-        currentDifficultyLevel={currentQuestion}
+        currentDifficultyLevel={currentQuestionDifficulty}
       />
       {/* question form */}
-      <QuestionForm submitQuestion={submitQuestion} />
+      <QuestionForm submitQuestion={submitQuestion} currentQuestion={questionSet[currentQuestion]} />
 
       <DashFooter />
     </div>
