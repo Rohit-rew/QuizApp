@@ -1,11 +1,12 @@
 import React from "react";
+import QuestionForm from "../../components/Quiz/questionForm";
 import { questionSet } from "../../lib/questions";
 
 export default function QuizStarted() {
 
   const SubmitQuestion = (e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault()
-    console.log(e.currentTarget.one)
+    console.log(e.target)
 
   }
 
@@ -48,35 +49,7 @@ export default function QuizStarted() {
       </div>
 
       {/* question area starts */}
-      <form onSubmit={(e)=>SubmitQuestion(e)} className="questionArea w-full bg-white p-3 rounded flex flex-col justify-between max-w-xl gap-5 shadow">
-        <h3 className="question">Which of the following is a number ?</h3>
-
-        <div className="options flex  flex-col gap-2">
-          <div>
-            <input type="checkbox" id="one" name="1" value="1" />
-            <label htmlFor="one"> I have a bike</label>
-          </div>
-          <hr></hr>
-          <div>
-            <input type="checkbox" id="2" name="2" value="Bike" />
-            <label htmlFor="2"> I have a bike</label>
-          </div>
-          <hr></hr>
-          <div>
-            <input type="checkbox" id="3" name="3" value="Bike" />
-            <label htmlFor="3"> I have a bike</label>
-          </div>
-          <hr></hr>
-          <div>
-            <input type="checkbox" id="4" name="4" value="Bike" />
-            <label htmlFor="4"> I have a bike</label>
-          </div>
-        </div>
-
-        <button type="submit" className="bg-green-500 py-2 rounded text-xl text-white">
-          Next Question
-        </button>
-      </form>
+       <QuestionForm />
       {/* question area ends */}
 
 
