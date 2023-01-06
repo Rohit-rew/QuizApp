@@ -15,7 +15,7 @@ export const getAnsArray = (selectedAnswers:selectionType)=>{
     for (let property in selectedAnswers){
       console.log(property)
       if(selectedAnswers[Number(property)] == true){
-        ansArray.push(property)
+        ansArray.push(Number(property))
       }
     }
     return ansArray

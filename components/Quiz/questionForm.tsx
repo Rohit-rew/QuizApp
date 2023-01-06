@@ -45,7 +45,7 @@ export default function QuestionForm({submitQuestion} : propTypes) {
             checked={selectedAnswers[1]}
             onChange={(e)=>changeHandler(e)}
           />
-          <label htmlFor="one"> I have a bike</label>
+          <label className="w-full" htmlFor="one"> I have a bike</label>
         </div>
         <hr></hr>
         <div className="flex items-center gap-3">
@@ -57,7 +57,7 @@ export default function QuestionForm({submitQuestion} : propTypes) {
             checked={selectedAnswers[2]}
             onChange={(e)=>changeHandler(e)}
           />
-          <label htmlFor="2"> I have a bike</label>
+          <label className="w-full" htmlFor="2"> I have a bike</label>
         </div>
         <hr></hr>
         <div className="flex items-center gap-3">
@@ -69,7 +69,7 @@ export default function QuestionForm({submitQuestion} : propTypes) {
             checked={selectedAnswers[3]}
             onChange={(e)=>changeHandler(e)}
           />
-          <label htmlFor="3"> I have a bike</label>
+          <label className="w-full" htmlFor="3"> I have a bike</label>
         </div>
         <hr></hr>
         <div className="flex items-center gap-3">
@@ -81,7 +81,7 @@ export default function QuestionForm({submitQuestion} : propTypes) {
             checked={selectedAnswers[4]}
             onChange={(e)=>changeHandler(e)}
           />
-          <label htmlFor="4"> I have a bike</label>
+          <label className="w-full" htmlFor="4"> I have a bike</label>
         </div>
       </div>
 
