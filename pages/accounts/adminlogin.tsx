@@ -8,11 +8,14 @@ import LoginForm from "../../components/login/loginForm";
 // axios
 import axios, { AxiosError } from "axios";
 
+//cookie
+import {useCookies} from"react-cookie"
+
 export default function AdminLogin() {
 
   const [emailError , setEmailError] = React.useState<null | String>(null)
   const [passError , setPassError] = React.useState<null | String>(null)
-
+  const [cookie , setCookie] = useCookies()
 
   const loginAdmin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,15 +28,19 @@ export default function AdminLogin() {
     const password = e.currentTarget.password.value
 
     if(email && password){
-      console.log("submitted")
-      console.log(email , password)
       // make API call here
       try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/admin/login` , {email,password})
-        console.log(response)
-        Router.push("/admin/dashboard")
+        const token = response.data.token
+        if(token){
+          setCookie("quizify" , token ,{
+            path: "/",
+            sameSite: true,
+            maxAge: 60*60*24,
+          })
+          Router.push("/admin/dashboard")
+        }
       } catch (error) {
-        console.log(error)
         if(error instanceof AxiosError){
           if(error.response?.status == 401){
             setPassError(error.response?.data.message)
