@@ -8,9 +8,14 @@ import LoginForm from "../../components/login/loginForm";
 import axios, { AxiosError } from "axios";
 import Router from "next/router";
 
+//cookies
+import { useCookies } from "react-cookie";
+
 export default function UserLogin() {
   const [emailError, setEmailError] = React.useState<null | String>(null);
   const [passError, setPassError] = React.useState<null | String>(null);
+  const [cookie , setCookie] = useCookies()
+
 
   const loginUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,8 +33,15 @@ export default function UserLogin() {
       // make API call here
       try { 
           const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/login` , {email,password})
-          console.log(response) // response contains Jwt toke save it to cookies
+          const token = response.data.token //jwt otken
+        if(token){ //set the token on the browser storage as cookies
+          setCookie("quizify" , token ,{
+            path: "/",
+            sameSite: true,
+            maxAge: 60*60*24,
+          })
           Router.push("/user/dashboard")
+        }
       } catch (error) {
         console.log(error)
         if(error instanceof AxiosError){

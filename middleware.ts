@@ -83,6 +83,25 @@ export async function middleware(req: NextRequest, res: NextResponse) {
     }
   }
 
+  if(req.nextUrl.pathname.startsWith("/quiz")){
+    const tokenFromCookies = req.cookies.get("quizify")?.value;
+    if (tokenFromCookies) { // if token in avaliable validate it
+      const data = await jose.jwtVerify(tokenFromCookies, new TextEncoder().encode(secret));
+      if(data){ // if token in valid check if it is an admin token 
+        if (data.payload.admin) { // if it is an admin token push to /accounts/userlogin
+          return NextResponse.redirect(new URL("/accounts/userlogin", req.url));
+        } else { // if it is not an admin token means it is a user token -> let go to quiz
+          return NextResponse.next();
+        }
+      }else{ // if tokenininvalid send to home page
+          return NextResponse.redirect(new URL("/", req.url));
+      }
+    } else {  // if token in not avaliable push to /accounts/userlgoin
+      return NextResponse.redirect(new URL("/accounts/userlogin", req.url));
+    }
+
+  }
+
 
 
 

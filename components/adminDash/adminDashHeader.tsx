@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // components 
-import ItemMenue from "./itemMenue";
+import ItemMenue from "../itemMenue";
 
 //utils import 
 import { handleClickEvent } from "../../lib/utils";

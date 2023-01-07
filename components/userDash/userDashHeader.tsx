@@ -8,11 +8,23 @@ import { faSearch , faClose } from "@fortawesome/free-solid-svg-icons";
 
 // search context
 import { UserContext } from '../../lib/contextAPI/userContext';
+import ItemMenue from '../itemMenue';
+import { handleClickEvent } from '../../lib/utils';
 
 
 export default function UserDashHeader() {
 
+  const [itemMenueIsOpen , setItemMenue] = React.useState<Boolean>(false)
   const {setSearch , isSearchOpen} = React.useContext(UserContext)
+
+  // to close the item menue when we click away from the menue
+  React.useEffect(() => {
+    window.addEventListener("click", (e)=>handleClickEvent( e, setItemMenue , ".dashboard"));
+
+    return () => {
+      window.removeEventListener("click", (e)=>handleClickEvent( e, setItemMenue ,".dashboard"));
+    };
+  }, [0]);
 
   return (
     <div className="header w-full bg-gray-900 max-w-2xl relative sm:rounded-b-3xl">
@@ -23,7 +35,7 @@ export default function UserDashHeader() {
         </div>
 
         <Image
-        //   onClick={(e) => setItemMenue(!itemMenueIsOpen)}
+          onClick={(e) => setItemMenue(!itemMenueIsOpen)}
           className="userImage rounded-full bg-white"
           src={"/profile.png"}
           alt=""
@@ -31,6 +43,7 @@ export default function UserDashHeader() {
           height={60}
         />
         
+        {itemMenueIsOpen && <ItemMenue />}
       </div>
 
       {/* the below container is to place the button in center */}
