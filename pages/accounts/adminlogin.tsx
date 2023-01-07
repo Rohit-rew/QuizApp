@@ -29,7 +29,7 @@ export default function AdminLogin() {
       console.log(email , password)
       // make API call here
       try {
-        const response = await axios.post("http://localhost:4000/admin/login" , {email,password})
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/admin/login` , {email,password})
         console.log(response)
         Router.push("/admin/dashboard")
       } catch (error) {
@@ -40,7 +40,7 @@ export default function AdminLogin() {
           }else if(error.response?.status == 404){
             setEmailError(error.response?.data.message)
           }else{
-            setEmailError("Something went wrong")
+            setEmailError("something went wrong")
           }
         }else{
           setEmailError("Something went wrong")

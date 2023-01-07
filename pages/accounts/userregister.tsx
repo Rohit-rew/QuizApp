@@ -36,7 +36,7 @@ export default function UserRegister() {
             }
             // make api call here
             try {
-              const response = await axios.post("http://localhost:4000/user/register" , {name,email,password})
+              const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/register` , {name,email,password})
               console.log(response)
               setIsregistered(true)
             } catch (error) {

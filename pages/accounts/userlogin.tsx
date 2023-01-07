@@ -27,7 +27,7 @@ export default function UserLogin() {
       console.log(email, password);
       // make API call here
       try { 
-          const response = await axios.post("http://localhost:4000/user/login" , {email,password})
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/user/login` , {email,password})
           console.log(response) // response contains Jwt toke save it to cookies
           Router.push("/user/dashboard")
       } catch (error) {
