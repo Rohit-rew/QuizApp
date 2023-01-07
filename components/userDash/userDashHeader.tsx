@@ -11,8 +11,12 @@ import { UserContext } from '../../lib/contextAPI/userContext';
 import ItemMenue from '../itemMenue';
 import { handleClickEvent } from '../../lib/utils';
 
+//types
+type propTypes = {
+  name : string | undefined
+}
 
-export default function UserDashHeader() {
+export default function UserDashHeader({name} : propTypes) {
 
   const [itemMenueIsOpen , setItemMenue] = React.useState<Boolean>(false)
   const {setSearch , isSearchOpen} = React.useContext(UserContext)
@@ -30,7 +34,7 @@ export default function UserDashHeader() {
     <div className="header w-full bg-gray-900 max-w-2xl relative sm:rounded-b-3xl">
       <div className="flex justify-between items-center p-4 relative">
         <div className="flex flex-col items-baseline">
-          <p className="text-white text-4xl">Rohit Kumar</p>
+          <p className="text-white text-4xl">{name}</p>
           <p className="text-yellow-500">(User)</p>
         </div>
 

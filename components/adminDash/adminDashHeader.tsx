@@ -14,7 +14,12 @@ import { handleClickEvent } from "../../lib/utils";
 // context import
 import { createQuizContext } from "../../lib/contextAPI/createQuizContext";
 
-export default function AdminDashHeader() {
+//types
+type propTypes = {
+  name : string | undefined
+}
+
+export default function AdminDashHeader({name} : propTypes) {
   const [itemMenueIsOpen, setItemMenue] = React.useState<Boolean>(false);
   const {openCreateQuizModal} = React.useContext(createQuizContext)
 
@@ -37,7 +42,7 @@ export default function AdminDashHeader() {
     <div className="header w-full bg-gray-900 max-w-2xl relative sm:rounded-b-3xl">
       <div className="flex justify-between items-center p-4 relative">
         <div className="flex flex-col items-baseline">
-          <p className="text-white text-4xl">Rohit Kumar</p>
+          <p className="text-white text-4xl">{name}</p>
           <p className="text-yellow-500">(admin)</p>
         </div>
 

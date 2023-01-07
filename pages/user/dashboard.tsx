@@ -15,14 +15,42 @@ import { faSearch, faClose } from "@fortawesome/free-solid-svg-icons";
 //search context
 import { UserContext } from "../../lib/contextAPI/userContext";
 
+//cookies
+import { useCookies } from "react-cookie";
+
+//jose
+import * as jose from "jose"
+
+//types
+export type userData = {
+  name : string,
+  email : string,
+  admin : boolean,
+  id : string
+}
+
+
 export default function Dashboard() {
   const quizCompleted = [{ quizName: "First Quiz" }];
 
   const { isSearchOpen, isGraphModalOpen } = React.useContext(UserContext);
+  const [userData , setUserData ] = React.useState<userData>()
+  const [cookies , setCookies] = useCookies(["quizify"])
+
+
+  React.useEffect(()=>{
+    async function getAdminDataFromCookies(){
+      const jwt = cookies.quizify
+      const decodedJwt = await jose.jwtVerify(jwt , new TextEncoder().encode("quizify"))
+      const {name , email , admin , id} : userData = decodedJwt.payload as userData
+      setUserData({name , email , admin , id})
+    }
+    getAdminDataFromCookies()
+  },[cookies])
 
   return (
     <div className="dashboard background-gradient background-image w-full min-h-screen bg-green-500 flex flex-col gap-5 items-center relative">
-      <UserDashHeader />
+      <UserDashHeader name={userData?.name}/>
 
       <div className="p-5 w-full flex flex-col gap-5 max-w-xl h-full">
         {/* Search box */}

@@ -12,6 +12,20 @@ import EmptyMessage from "../../components/emptyMessage";
 import { createQuizContext } from "../../lib/contextAPI/createQuizContext";
 import { handleClickEvent } from "../../lib/utils";
 
+// cookies
+import { useCookies } from "react-cookie";
+
+//jose
+import * as jose from "jose"
+
+//types
+export type adminData = {
+  name : string,
+  email : string,
+  admin : boolean,
+  id : string
+}
+
 
 //function component starts
 export default function AdminDash() {
@@ -20,13 +34,25 @@ export default function AdminDash() {
     { quizName: "This is a quiz", totalQuestions : 10 },
     { quizName: "This is a quiz", totalQuestions : 10 },
   ];
-
+  const [adminData , setAdminData ] = React.useState<adminData>()
+  const [cookies , setCookies] = useCookies(["quizify"])
   // context consumed
   const { createQuizModalOpen } = React.useContext(createQuizContext);
 
+  React.useEffect(()=>{
+    async function getAdminDataFromCookies(){
+      const jwt = cookies.quizify
+      const decodedJwt = await jose.jwtVerify(jwt , new TextEncoder().encode("quizify"))
+      const {name , email , admin , id} : adminData = decodedJwt.payload as adminData
+      setAdminData({name , email , admin , id})
+    }
+    getAdminDataFromCookies()
+  },[cookies])
+
+
   return (
     <div className="dashboard background-gradient background-image w-full min-h-screen bg-green-500 flex flex-col gap-5 items-center relative">
-      <AdminDashHeader />
+      <AdminDashHeader name={adminData?.name}/>
       <div className="p-5 w-full flex flex-col gap-5 max-w-xl h-full">
         {!Boolean(quizes.length) && <EmptyMessage  message="You do not have created any quiz yet. Click on the above add icon to create a quiz"/>}
 
