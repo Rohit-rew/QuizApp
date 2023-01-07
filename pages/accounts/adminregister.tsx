@@ -3,6 +3,9 @@ import React from "react";
 import RegisterForm from "../../components/login/registerForm";
 import SuccessRegistrationMessage from "../../components/successRegistrationMessage";
 
+// axios
+import axios, { AxiosError } from "axios";
+
 export default function AdminRegister() {
   const [nameErrorMsg, setNameErrorMsg] = React.useState<String | null>(null);
   const [emailErrorMsg, setEmailErrorMsg] = React.useState<String | null>(null);
@@ -11,7 +14,7 @@ export default function AdminRegister() {
     React.useState<String | null>(null);
   const [isregistered , setIsregistered] = React.useState<Boolean>(false)
 
-  const registerAdmin = (e: React.FormEvent<HTMLFormElement>) => {
+  const registerAdmin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // remove any preset error
@@ -24,16 +27,25 @@ export default function AdminRegister() {
     const password = e.currentTarget.password.value;
     const confirmPassword = e.currentTarget.confirmPassword.value;
 
-    if (email && password && confirmPassword) {
+    if (name && email && password && confirmPassword) {
       if (password != confirmPassword) {
         setpassErrorMsg("passwords do not match");
         setconfirmPassErrorMsg("passwords do not match");
       }
-      console.log("submited");
       console.log(email, password, confirmPassword);
       // make api call here
-      // on successfull registration show user the message of successfull registration with a link to go to   admin login
-      setIsregistered(true)
+      try {
+        const response = await axios.post("http://localhost:4000/admin/register" , {name,email,password})
+        console.log(response)
+        setIsregistered(true)
+      } catch (error) {
+        console.log(error)
+        if(error instanceof AxiosError){
+            setEmailErrorMsg(error.response?.data.message)
+        }else{
+          setNameErrorMsg("Something Went wrong")
+        }
+      }
     } else if (!name) {
       setNameErrorMsg("Please enter name");
     } else if (!email) {

@@ -3,7 +3,6 @@ import { Inter } from "@next/font/google";
 
 // components imports
 import WelcomeView from "../components/login/welcomeView";
-import SuccessRegistrationMessage from "../components/successRegistrationMessage";
 
 export default function Home() {
   return (

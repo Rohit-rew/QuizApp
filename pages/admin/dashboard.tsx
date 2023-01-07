@@ -32,8 +32,8 @@ export default function AdminDash() {
 
         {Boolean(quizes.length) && (
           <div className="flex flex-col gap-5 pb-20">
-            {quizes.map((quiz) => {
-              return <QuizInfo quiz={quiz}/>
+            {quizes.map((quiz,i) => {
+              return <QuizInfo key={i} quiz={quiz}/>
             })}
           </div>
         )}

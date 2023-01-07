@@ -1,7 +1,12 @@
 import Link from "next/link";
 import React from "react";
+
+//components
 import RegisterForm from "../../components/login/registerForm";
 import SuccessRegistrationMessage from "../../components/successRegistrationMessage";
+
+//axios
+import axios, { AxiosError } from "axios";
 
 export default function UserRegister() {
     const[nameErrorMsg , setNameErrorMsg] = React.useState<String|null>(null)
@@ -10,31 +15,43 @@ export default function UserRegister() {
     const[confirmPassErrorMsg , setconfirmPassErrorMsg] = React.useState<String|null>(null)
     const [isregistered , setIsregistered] = React.useState<Boolean>(false)
 
-    const registerUser = (e:React.FormEvent<HTMLFormElement>)=>{
+    const registerUser = async (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault()
-
+        
         // remove any preset error
         setEmailErrorMsg(null)
         setpassErrorMsg(null)
         setconfirmPassErrorMsg(null)
-
+        
         const email = e.currentTarget.email.value
         const password = e.currentTarget.password.value
         const confirmPassword = e.currentTarget.confirmPassword.value
         const name = e.currentTarget.namee.value
-
-        if(email && password && confirmPassword){
+        
+        if(name && email && password && confirmPassword){
             if(password != confirmPassword){
                 setpassErrorMsg("passwords do not match")
                 setconfirmPassErrorMsg("passwords do not match")
+                return
             }
-            console.log("submited")
-            console.log(email, password , confirmPassword)
             // make api call here
+            try {
+              const response = await axios.post("http://localhost:4000/user/register" , {name,email,password})
+              console.log(response)
+              setIsregistered(true)
+            } catch (error) {
+              console.log(error)
+              if(error instanceof AxiosError){
+                if(error.response?.status == 400){
+                  setEmailErrorMsg(error.response.data.message)
+                }else{
+                  setEmailErrorMsg("Something went wrong")
+                }
+              }else{
+                setEmailErrorMsg("Something went wrong")
+              }
+            }
 
-
-            // on successfull register show user the success message and show a link to go to login
-            setIsregistered(true)
         }else if(!name && !email && !password && confirmPassword){
             setEmailErrorMsg("please enter email")
             setpassErrorMsg("please enter password")

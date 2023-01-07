@@ -1,12 +1,18 @@
 import Link from "next/link";
 import React from "react";
+
+//components
 import LoginForm from "../../components/login/loginForm";
+
+//axios
+import axios, { AxiosError } from "axios";
+import Router from "next/router";
 
 export default function UserLogin() {
   const [emailError, setEmailError] = React.useState<null | String>(null);
   const [passError, setPassError] = React.useState<null | String>(null);
 
-  const loginUser = (e: React.FormEvent<HTMLFormElement>) => {
+  const loginUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // remove any preset error
@@ -20,6 +26,24 @@ export default function UserLogin() {
       console.log("submitted");
       console.log(email, password);
       // make API call here
+      try { 
+          const response = await axios.post("http://localhost:4000/user/login" , {email,password})
+          console.log(response) // response contains Jwt toke save it to cookies
+          Router.push("/user/dashboard")
+      } catch (error) {
+        console.log(error)
+        if(error instanceof AxiosError){
+          if(error.response?.status == 401){
+            setPassError(error.response.data.message)
+          }else if(error.response?.status == 404){
+            setEmailError(error.response.data.message)
+          }else{
+            setEmailError("something Went wrong")
+          }
+        }else{
+          setEmailError("something Went wrong")
+        }
+      }
     } else if (!email && !password) {
       // frontend validation
       setEmailError("Please enter email");

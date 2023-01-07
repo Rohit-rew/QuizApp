@@ -1,6 +1,12 @@
 import Link from "next/link";
 import React from "react";
+import Router from "next/router";
+
+//components
 import LoginForm from "../../components/login/loginForm";
+
+// axios
+import axios, { AxiosError } from "axios";
 
 export default function AdminLogin() {
 
@@ -8,7 +14,7 @@ export default function AdminLogin() {
   const [passError , setPassError] = React.useState<null | String>(null)
 
 
-  const loginAdmin = (e: React.FormEvent<HTMLFormElement>) => {
+  const loginAdmin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // remove any preset error
@@ -22,6 +28,25 @@ export default function AdminLogin() {
       console.log("submitted")
       console.log(email , password)
       // make API call here
+      try {
+        const response = await axios.post("http://localhost:4000/admin/login" , {email,password})
+        console.log(response)
+        Router.push("/admin/dashboard")
+      } catch (error) {
+        console.log(error)
+        if(error instanceof AxiosError){
+          if(error.response?.status == 401){
+            setPassError(error.response?.data.message)
+          }else if(error.response?.status == 404){
+            setEmailError(error.response?.data.message)
+          }else{
+            setEmailError("Something went wrong")
+          }
+        }else{
+          setEmailError("Something went wrong")
+        }
+      }
+
     }else if(!email && !password){        // frontend validation
       setEmailError("Please enter email")
       setPassError("Please enter Password")
