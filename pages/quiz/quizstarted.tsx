@@ -57,13 +57,15 @@ export default function QuizStarted() {
     // quiz end logic
     if(currentQuestionDifficulty==10 && isCorrectAns){
       console.log("quiz ended -> answered diff level 10 ques correctly")
-      // show graph to the user
+      // quiz ended => show graph to the user
       setGraphModal(true)
+      //call the API to store the quiz details in admin db
       return
     }else if(currentQuestionDifficulty==1 && !isCorrectAns){
       console.log("quiz ended -> answered diff level 1 ques Wrong")
-      // show graph to the user
+      //quiz ended => show graph to the user
       setGraphModal(true)
+      //call the API to store the quiz details in admin db
       return
     }
 
