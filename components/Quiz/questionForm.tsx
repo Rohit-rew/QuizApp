@@ -26,12 +26,13 @@ export default function QuestionForm({
     4: false,
   });
 
+
   // need to fix the below type error
   // move the below function to utils
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.currentTarget.name);
+    const value = e.currentTarget.name;
     setSelectedAnswers((preval) => {
-      return { ...preval, [value]: !preval[value] };
+      return { ...preval, [value]: !(preval as any)[value] };
     });
   };
 
