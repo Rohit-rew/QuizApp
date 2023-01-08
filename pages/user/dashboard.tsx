@@ -37,7 +37,7 @@ export default function Dashboard() {
   const [userData , setUserData ] = React.useState<userData>()
   const [cookies , setCookies] = useCookies(["quizify"])
 
-
+  // need to find a way to hide the secret
   React.useEffect(()=>{
     async function getAdminDataFromCookies(){
       const jwt = cookies.quizify
