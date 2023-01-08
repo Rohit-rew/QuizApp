@@ -5,7 +5,7 @@ import * as d3 from "d3";
 
 //types
 type propTypes = {
-  scoreArray : Number[]
+  scoreArray : number[]
 }
 
 
@@ -43,8 +43,8 @@ export default function ScoreGraph({scoreArray}:propTypes) {
       .axisBottom(xScale)
       .ticks(scoreArray.length)
       .tickFormat((i) =>{
-        console.log(i)
-        return i+1
+        const num = (i as number)+1
+        return num.toString()
       });
     const yAxis = d3.axisLeft(yScale)
       .ticks(5);
