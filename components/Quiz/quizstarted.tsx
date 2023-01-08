@@ -9,15 +9,18 @@ import ScoreGraphModal from "../../components/scoreGraphModal";
 
 //types
 import { selectionType } from "../../lib/types/type";
+type propType = {
+    questionSet : questionType[] 
+}
 
 // utils imports
 import { ansValidator, getAnsArray } from "../../lib/utils";
-import { questionSet } from "../../lib/questions";
 
 //context
 import { UserContext } from "../../lib/contextAPI/userContext";
+import { questionType } from "../../lib/questions";
 
-export default function QuizStarted() {
+export default function QuizStarted({questionSet} : propType) {
   
   const [currentQuestionDifficulty, setCurrentQuestionDifficulty] = React.useState(5);
   const [currentQuestion , setCurrentQuestion] = React.useState(4)
@@ -56,13 +59,11 @@ export default function QuizStarted() {
 
     // quiz end logic
     if(currentQuestionDifficulty==10 && isCorrectAns){
-      console.log("quiz ended -> answered diff level 10 ques correctly")
       // quiz ended => show graph to the user
       setGraphModal(true)
       //call the API to store the quiz details in admin db
       return
     }else if(currentQuestionDifficulty==1 && !isCorrectAns){
-      console.log("quiz ended -> answered diff level 1 ques Wrong")
       //quiz ended => show graph to the user
       setGraphModal(true)
       //call the API to store the quiz details in admin db
@@ -88,7 +89,7 @@ export default function QuizStarted() {
   };
 
   return (
-    <div className="dashboard background-gradient background-image w-full min-h-screen bg-green-500 flex flex-col gap- items-center relative p-5 gap-5">
+    <div className="dashboard absolute background-gradient background-image w-full min-h-screen bg-green-500 flex flex-col gap- items-center relative p-5 gap-5">
       <h1 className="text-3xl font-bold">Java Quiz</h1>
 
       {/* QUiz details on the quiz Page */}

@@ -41,6 +41,7 @@ export default function Dashboard() {
   React.useEffect(()=>{
     async function getAdminDataFromCookies(){
       const jwt = cookies.quizify
+      if(!jwt) return
       const decodedJwt = await jose.jwtVerify(jwt , new TextEncoder().encode("quizify"))
       const {name , email , admin , id} : userData = decodedJwt.payload as userData
       setUserData({name , email , admin , id})
