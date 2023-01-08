@@ -31,16 +31,17 @@ export type adminData = {
 
 //function component starts
 export default function AdminDash() {
-  const quizes = [
-    { quizName: "This is a quiz", totalQuestions: 10 },
-    { quizName: "This is a quiz", totalQuestions: 10 },
-    { quizName: "This is a quiz", totalQuestions: 10 },
-  ];
+  // const quizes = [
+  //   { quizName: "This is a quiz", totalQuestions: 10 },
+  //   { quizName: "This is a quiz", totalQuestions: 10 },
+  //   { quizName: "This is a quiz", totalQuestions: 10 },
+  // ];
   const [adminData, setAdminData] = React.useState<adminData>();
   const [cookies, setCookies] = useCookies(["quizify"]);
+  const [quizes , setQuiz] = React.useState([]);
   // context consumed
   const { createQuizModalOpen } = React.useContext(createQuizContext);
-  console.log(adminData)
+  console.log(quizes)
   React.useEffect(() => {
     async function getAdminDataFromCookies() {
       const jwt = cookies.quizify;
@@ -59,10 +60,10 @@ export default function AdminDash() {
 
     async function  getAdminQuizes(){
       try {
-        const quizIdArray = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/admin/find` , {headers : {
+        const quizIdArray = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/quiz/getAll` , {headers : {
           Authorization: cookies.quizify,
         }})
-        console.log(quizIdArray.data)
+        setQuiz(quizIdArray.data)
       } catch (error) {
         console.log(error)
       }

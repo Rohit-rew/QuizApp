@@ -5,10 +5,15 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
+
 // types
 type quizType = {
-  quizName: String
-  totalQuestions : Number
+  quizName: string
+  totalQuestions : number
+  category : string
+  createdBy : string
+  _id: string
+  createdAt:string
 };
 
 type propTypes = {
@@ -20,7 +25,6 @@ export default function AdminQuizInfo({ quiz }: propTypes) {
 
     const showCopyMessage = ()=>{
         setCopyMsg(true) 
-
         setTimeout(()=>{
             setCopyMsg( (preval)=>{
                 return false
@@ -28,23 +32,32 @@ export default function AdminQuizInfo({ quiz }: propTypes) {
         }, 1500)
     }
 
+    const copyUrl = ()=>{
+      navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_BASE_URL}${quiz._id}`)
+      showCopyMessage()
+    }
+
+    const date = new Date(quiz.createdAt)
+
   return (
     <div className="quiz w-full bg-white rounded shadow p-3 relative flex flex-col gap-1">
       <p className="text-3xl ">{quiz.quizName}</p>
       <p className="text-xs text-gray-600">Status : Completed </p>
       <p className="text-xs text-gray-600">
-        Created At : 3 Jan 2023 10:30 am IST
+        created At: {date.toLocaleString()}
       </p>
-      <p className="text-xs text-gray-600">Quiz Id : hj123eghjg24r3eh</p>
+      <p className="text-xs text-gray-600">Quiz Id : {quiz._id}</p>
 
       <Image className="absolute right-0 top-0 opacity-10 -rotate-45" src={"/question.png"} alt="" width={60} height={60}/>
 
       {copyMsgIsShown && <span className="bg-gray-200 px-2 py-1 absolute right-3 bottom-10 rounded">Link Copied</span>}
       <FontAwesomeIcon
-        onClick={()=>showCopyMessage()}
+        onClick={()=>copyUrl()}
         className="absolute right-3 bottom-3 text-2xl"
         icon={faCopy}
       />
     </div>
   );
 }
+
+
