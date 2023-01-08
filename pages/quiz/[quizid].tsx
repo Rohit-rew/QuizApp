@@ -12,6 +12,7 @@ import axios from "axios";
 //types
 import { questionType } from "../../lib/questions";
 import QuizStarted from "../../components/Quiz/quizstarted";
+import { useCookies } from "react-cookie";
 type quizType = {
   quizName : string
   totalQuestions :number
@@ -25,16 +26,20 @@ export default function Quiz() {
 
   const [quiz , setQuiz] = React.useState<quizType | null>(null)
   const [quizStarted , setQuizStarted] = React.useState(false)
+  const [cookies , setCookies] = useCookies(["quizify"])
 
   const {query} = useRouter()
   const quizId = query.quizid
 
   React.useEffect(()=>{
     if(!quizId)return 
+    if(!cookies.quizify) return 
 
     const getQUizInfo = async ()=>{
       try {
-        const quiz = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/quiz/${quizId}`)
+        const quiz = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/quiz/${quizId}` , {headers : {
+          Authorization : cookies.quizify
+        }})
         setQuiz(quiz.data)
       } catch (error) {
         console.log(error)
@@ -66,6 +71,7 @@ export default function Quiz() {
         </button>
       </div>
     </div>}
+      {/* fix the below type error  */}
       {quizStarted && <QuizStarted questionSet={quiz?.questionSet}/>}
       </>
   );
