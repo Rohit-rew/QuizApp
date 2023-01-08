@@ -40,10 +40,11 @@ export default function AdminDash() {
   const [cookies, setCookies] = useCookies(["quizify"]);
   // context consumed
   const { createQuizModalOpen } = React.useContext(createQuizContext);
-
+  console.log(adminData)
   React.useEffect(() => {
     async function getAdminDataFromCookies() {
       const jwt = cookies.quizify;
+      if(!jwt) return //need to send the user to loginpage
       const decodedJwt = await jose.jwtVerify(
         jwt,
         new TextEncoder().encode("quizify")
@@ -53,7 +54,23 @@ export default function AdminDash() {
       setAdminData({ name, email, admin, id });
     }
     getAdminDataFromCookies();
-  }, [cookies]);
+
+    // make api call to get all quized related to admin
+
+    async function  getAdminQuizes(){
+      try {
+        const quizIdArray = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/admin/find` , {headers : {
+          Authorization: cookies.quizify,
+        }})
+        console.log(quizIdArray.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAdminQuizes()
+
+
+  }, [cookies , createQuizModalOpen]);
 
   return (
     <div className="dashboard background-gradient background-image w-full min-h-screen bg-green-500 flex flex-col gap-5 items-center relative">
@@ -107,6 +124,7 @@ export function CreateQuiz() {
             },
           }
         );
+        // close quiz modal
         console.log(response)
         setCreateQuizModal(false)
       } catch (error) {
