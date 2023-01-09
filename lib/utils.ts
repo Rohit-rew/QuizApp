@@ -44,3 +44,15 @@ export const ansValidator = (
       return { ...preval, [value]: !(preval as any)[value] };
     });
   };
+
+  export const ansArrayToObject = (data : number[])=>{
+    let obj = {1 : false , 2: false , 3: false , 4:false}
+        for(let i = 0 ; i < data.length ; i++){
+            for(let item in obj){
+                if(data[i] == Number(item)){
+                    obj[Number(data[i])] = true
+                }
+            }
+        }
+    return obj
+  }

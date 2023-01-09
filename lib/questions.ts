@@ -1,15 +1,15 @@
 
 export type questionType = {
-    ques : String,
+    ques : string,
     choice : {
-        1: String,
-        2: String,
-        3: String,
-        4: String,
+        1: string,
+        2: string,
+        3: string,
+        4: string,
     }
-    hasMultipleAns : Boolean,
-    answer : Number[],
-    difficultyLevel : Number
+    hasMultipleAns : boolean,
+    answer : number[],
+    difficultyLevel : number
 }
 
 
