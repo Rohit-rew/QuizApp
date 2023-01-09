@@ -3,13 +3,13 @@ import React from "react";
 // components imports
 import DashFooter from "../../components/DashFooter";
 import AdminDashHeader from "../../components/adminDash/adminDashHeader";
-import CreateQuizForm from "../../components/adminDash/createQuizForm";
 import QuizInfo from "../../components/adminDash/adminquizInfo";
 import EmptyMessage from "../../components/emptyMessage";
+import { CreateQuiz } from "../../components/adminDash/createQuiz";
+
 
 // context import
 import { createQuizContext } from "../../lib/contextAPI/createQuizContext";
-import { handleClickEvent } from "../../lib/utils";
 
 // cookies
 import { useCookies } from "react-cookie";
@@ -18,8 +18,7 @@ import { useCookies } from "react-cookie";
 import * as jose from "jose";
 
 //axios
-import axios, { AxiosError } from "axios";
-import { questionSet } from "../../lib/questions";
+import axios from "axios";
 
 //types
 export type adminData = {
@@ -31,11 +30,6 @@ export type adminData = {
 
 //function component starts
 export default function AdminDash() {
-  // const quizes = [
-  //   { quizName: "This is a quiz", totalQuestions: 10 },
-  //   { quizName: "This is a quiz", totalQuestions: 10 },
-  //   { quizName: "This is a quiz", totalQuestions: 10 },
-  // ];
   const [adminData, setAdminData] = React.useState<adminData>();
   const [cookies, setCookies] = useCookies(["quizify"]);
   const [quizes , setQuiz] = React.useState([]);
@@ -95,66 +89,3 @@ export default function AdminDash() {
   );
 }
 
-export function CreateQuiz() {
-  const [nameErrMsg, setNameErrMsg] = React.useState<String | null>(null);
-  const { setCreateQuizModal } = React.useContext(createQuizContext);
-  const [cookies, setCookies] = useCookies(["quizify"]);
-
-  const createQuiz = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const quizName = e.currentTarget.quizName.value;
-    const totalQuestions = e.currentTarget.totalQuestions.value;
-
-    if (quizName && totalQuestions) {
-      const createQuizBody = {
-        quizName: quizName,
-        totalQuestions: totalQuestions,
-        category: "javascript",
-        createdBy: "will be changed in the backend",
-        questionSet: questionSet,
-      };
-      // call the api and close the modal upon success
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/quiz/create`,
-          createQuizBody,
-          {
-            headers: {
-              Authorization: cookies.quizify,
-            },
-          }
-        );
-        // close quiz modal
-        console.log(response)
-        setCreateQuizModal(false)
-      } catch (error) {
-        if(error instanceof AxiosError){
-          setNameErrMsg(error.response?.data.message)
-        }
-        console.log(error)
-      }
-    } else if (!quizName) {
-      setNameErrMsg("Name cannot be empty");
-    }
-  };
-
-  // To close the modal when we click away from the modal (outfocus)
-  React.useState(() => {
-    window.addEventListener("click", (e) =>
-      handleClickEvent(e, setCreateQuizModal, ".quizcreateModal")
-    );
-
-    return () => {
-      window.removeEventListener("click", (e) =>
-        handleClickEvent(e, setCreateQuizModal, ".quizcreateModal")
-      );
-    };
-  });
-
-  return (
-    <div className="quizcreateModal absolute w-full h-full  bg-black bg-opacity-80 box-border p-5 flex justify-center items-center">
-      <CreateQuizForm createQuiz={createQuiz} nameErrMsg={nameErrMsg} />
-    </div>
-  );
-}

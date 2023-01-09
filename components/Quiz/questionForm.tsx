@@ -3,6 +3,7 @@ import React from "react";
 //types
 import { questionType } from "../../lib/questions";
 import { selectionType } from "../../lib/types/type";
+import { changeHandler } from "../../lib/utils";
 type submitQuestion = (
   e: React.FormEvent<HTMLFormElement>,
   selectedAnswers: selectionType,
@@ -27,14 +28,6 @@ export default function QuestionForm({
   });
 
 
-  // need to fix the below type error
-  // move the below function to utils
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.name;
-    setSelectedAnswers((preval) => {
-      return { ...preval, [value]: !(preval as any)[value] };
-    });
-  };
 
   return (
     <form
@@ -50,9 +43,8 @@ export default function QuestionForm({
             type="checkbox"
             id="one"
             name="1"
-            value="1"
             checked={selectedAnswers[1]}
-            onChange={(e) => changeHandler(e)}
+            onChange={(e) => changeHandler(e ,setSelectedAnswers)}
           />
           <label className="w-full" htmlFor="one">
             {" "}
@@ -66,9 +58,8 @@ export default function QuestionForm({
             type="checkbox"
             id="2"
             name="2"
-            value="Bike"
             checked={selectedAnswers[2]}
-            onChange={(e) => changeHandler(e)}
+            onChange={(e) => changeHandler(e , setSelectedAnswers)}
           />
           <label className="w-full" htmlFor="2">
             {" "}
@@ -82,9 +73,8 @@ export default function QuestionForm({
             type="checkbox"
             id="3"
             name="3"
-            value="Bike"
             checked={selectedAnswers[3]}
-            onChange={(e) => changeHandler(e)}
+            onChange={(e) => changeHandler(e , setSelectedAnswers)}
           />
           <label className="w-full" htmlFor="3">
             {" "}
@@ -98,9 +88,8 @@ export default function QuestionForm({
             type="checkbox"
             id="4"
             name="4"
-            value="Bike"
             checked={selectedAnswers[4]}
-            onChange={(e) => changeHandler(e)}
+            onChange={(e) => changeHandler(e , setSelectedAnswers)}
           />
           <label className="w-full " htmlFor="4">
             {" "}

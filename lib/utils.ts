@@ -36,3 +36,11 @@ export const ansValidator = (
   // if answers match
   return true;
 };
+
+
+ export const changeHandler = (e: React.ChangeEvent<HTMLInputElement> , setSelectedAnswers : React.Dispatch<React.SetStateAction<selectionType>>) => {
+    const value = e.currentTarget.name;
+    setSelectedAnswers((preval) => {
+      return { ...preval, [value]: !(preval as any)[value] };
+    });
+  };
