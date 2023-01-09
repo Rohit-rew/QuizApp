@@ -52,7 +52,7 @@ export default function Quiz() {
 
   return (
     <>
-    {!quizStarted && <div className="dashboard background-gradient background-image w-full min-h-screen bg-green-500 flex flex-col gap- items-center relative p-5 sm:justify-around">
+    {!(quizStarted && quiz) && <div className="dashboard background-gradient background-image w-full min-h-screen bg-green-500 flex flex-col gap- items-center relative p-5 sm:justify-around">
       <h1 className="text-center text-5xl font-semibold leading-20">
         Welcome to
       </h1>
@@ -72,7 +72,7 @@ export default function Quiz() {
       </div>
     </div>}
       {/* fix the below type error  */}
-      {quizStarted && <QuizStarted questionSet={quiz?.questionSet}/>}
+      {(quizStarted && quiz) &&  <QuizStarted questionSet={quiz?.questionSet}/>}
       </>
   );
 }

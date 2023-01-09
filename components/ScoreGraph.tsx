@@ -2,67 +2,73 @@ import React from "react";
 
 //D3
 import * as d3 from "d3";
+import { svg } from "d3";
 
 //types
 type propTypes = {
-  scoreArray : number[]
+  scoreArray : Number[]
 }
 
 
 export default function ScoreGraph({scoreArray}:propTypes) {
   const graph = React.useRef(null);
 
+  const data =  scoreArray.map((item , i)=>{
+    return {x : i , y : item}
+  })
+
+
   React.useEffect(() => {
-    //setting up svg
-    const w = 300;
-    const h = 100;
-    const svg = d3
-      .select(graph.current)
-      .attr("width", w)
-      .attr("height", h)
-      .style("background", "#d3d3d3")
-      .style("border-radius", "5px")
-      .style('overflow' , 'visible')
-      .style("margin-bottom" , 20)
+    if(!data) return
+    let svg = d3.select(graph.current);
 
-    // setting up scaling
+    // Set the dimensions of the canvas / graph
+    const margin = { top: 30, right: 20, bottom: 30, left: 50 },
+      width = 300 - margin.left - margin.right,
+      height = 150 - margin.top - margin.bottom;
 
-    const xScale = d3
-      .scaleLinear()
-      .domain([0, scoreArray.length - 1])
-      .range([0, w]);
-    const yScale = d3.scaleLinear().domain([0, h]).range([h, 0]);
-    const generateScaledLine = d3
-      .line()
-      .x((d, i) => xScale(i))
-      .y(yScale)
-      .curve(d3.curveCardinal);
+    // Set the ranges
+    const x = d3.scaleLinear().range([0, width]);
+    const y = d3.scaleLinear().range([height, 0]);
 
-    //set the axis
-    const xAxis = d3
-      .axisBottom(xScale)
-      .ticks(scoreArray.length)
-      .tickFormat((i) =>{
-        const num = (i as number)+1
-        return num.toString()
-      });
-    const yAxis = d3.axisLeft(yScale)
-      .ticks(5);
-    svg.append('g')
-    .call(xAxis)
-    .attr('transform' , `translate(0, ${h})`);
+    // Define the line
+    const valueline = d3.line()
+      .x(function (d) { return x(d.x); })
+      .y(function (d) { return y(d.y); });
 
-    svg.append('g')
-    .call(yAxis);
+    // Adds the svg canvas
+    svg = d3.select(graph.current)
+      .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform",
+        "translate(" + margin.left + "," + margin.top + ")");
 
-    // setting up data for svg
-    svg
-      .selectAll('.line')
-      .data([scoreArray])
-      .join('path')
-      .attr('d', (d) => generateScaledLine(d))
-      .attr('fill', 'none')
+    // Get the data
+
+    // Scale the range of the data
+    x.domain([0, 7]);
+    y.domain([0, d3.max(data, function (d) { return d.y; })]);
+
+    // Add the valueline path.
+    svg.append("path")
+      .data([data])
+      .attr("class", "line")
+      .attr("d", valueline);
+
+    // Add the X Axis
+    svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+    // Add the Y Axis
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+      svg.attr('fill', 'none')
       .attr('stroke', 'black');
+
   }, [scoreArray]);
 
   return <svg  ref={graph}></svg>

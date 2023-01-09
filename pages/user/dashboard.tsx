@@ -21,6 +21,10 @@ import { useCookies } from "react-cookie";
 //jose
 import * as jose from "jose"
 
+//axios
+import axios from "axios";
+import Router from "next/router";
+
 //types
 export type userData = {
   name : string,
@@ -31,11 +35,12 @@ export type userData = {
 
 
 export default function Dashboard() {
-  const quizCompleted = [{ quizName: "First Quiz" }];
+  const quizCompleted = [];
 
   const { isSearchOpen, isGraphModalOpen } = React.useContext(UserContext);
   const [userData , setUserData ] = React.useState<userData>()
   const [cookies , setCookies] = useCookies(["quizify"])
+  const [searchValue , setSearchValue] = React.useState("")
 
   // need to find a way to hide the secret
   React.useEffect(()=>{
@@ -49,6 +54,12 @@ export default function Dashboard() {
     getAdminDataFromCookies()
   },[cookies])
 
+  const searchQuizById = async ()=>{
+    // implement functionality to validate qiz id
+    if(!searchValue) return 
+    Router.push(`/quiz/${searchValue}`)
+  }
+
   return (
     <div className="dashboard background-gradient background-image w-full min-h-screen bg-green-500 flex flex-col gap-5 items-center relative">
       <UserDashHeader name={userData?.name}/>
@@ -60,8 +71,10 @@ export default function Dashboard() {
             <input
               className="h-10 px-2 rounded-l-md pr-10 w-full"
               placeholder="Enter quiz id eg : 3c4rb678f3c4vt"
+              onChange={(e)=>setSearchValue(e.target.value)}
+              value={searchValue}
             />
-            <button className="bg-black w-10 rounded rounded-r-md">
+            <button onClick={searchQuizById} className="bg-black w-10 rounded rounded-r-md">
               <FontAwesomeIcon
                 className="text-2xl text-white"
                 icon={faSearch}

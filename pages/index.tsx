@@ -3,6 +3,7 @@ import { Inter } from "@next/font/google";
 
 // components imports
 import WelcomeView from "../components/login/welcomeView";
+import ScoreGraphModal from "../components/scoreGraphModal";
 
 export default function Home() {
   return (
