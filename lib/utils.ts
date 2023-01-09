@@ -13,7 +13,7 @@ export const handleClickEvent = (
 export const getAnsArray = (selectedAnswers: selectionType) => {
   let ansArray = [];
   for (let property in selectedAnswers) {
-    if (selectedAnswers[Number(property)] == true) {
+    if ((selectedAnswers as any)[Number(property)] == true) {
       ansArray.push(Number(property));
     }
   }
@@ -46,13 +46,13 @@ export const ansValidator = (
   };
 
   export const ansArrayToObject = (data : number[])=>{
-    let obj = {1 : false , 2: false , 3: false , 4:false}
+    let object = {1 : false , 2: false , 3: false , 4:false}
         for(let i = 0 ; i < data.length ; i++){
             for(let item in obj){
                 if(data[i] == Number(item)){
-                    obj[Number(data[i])] = true
+                    (obj as any)[Number(data[i])] = true
                 }
             }
         }
-    return obj
+    return object
   }

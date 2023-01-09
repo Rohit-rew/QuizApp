@@ -77,9 +77,10 @@ export default function DisabledQuestionForm({question} : propTypes) {
       {/* toggle switch  */}
       <div className="w-full flex justify-between">
         <p>Has Multiple answers: </p>
-        <label className="switch">
+        <label className="switch" >
           <input
           disabled
+          className="toggleinput-disabled"
           defaultChecked={question.hasMultipleAns}
             type="checkbox"
             onChange={() => setHasMultipleAns((preval) => !preval)}
