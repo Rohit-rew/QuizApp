@@ -1,4 +1,5 @@
 import React from "react";
+import Router from "next/router";
 
 //components
 import DashFooter from "../../components/DashFooter";
@@ -7,10 +8,9 @@ import EmptyMessage from "../../components/emptyMessage";
 import UserQuizInfo from "../../components/userDash/userquizinfo";
 import ScoreGraphModal from "../../components/scoreGraphModal";
 
-
 //font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faClose } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 //search context
 import { UserContext } from "../../lib/contextAPI/userContext";
@@ -21,11 +21,8 @@ import { useCookies } from "react-cookie";
 //jose
 import * as jose from "jose"
 
-//axios
-import axios from "axios";
-import Router from "next/router";
-
 //types
+import { quizType } from "../../lib/types/type";
 export type userData = {
   name : string,
   email : string,
@@ -35,7 +32,7 @@ export type userData = {
 
 
 export default function Dashboard() {
-  const quizCompleted = [];
+  const quizCompleted:quizType[] | null = []; // quizes completed by user will be stored in this array after api call
 
   const { isSearchOpen, isGraphModalOpen } = React.useContext(UserContext);
   const [userData , setUserData ] = React.useState<userData>()
@@ -97,7 +94,7 @@ export default function Dashboard() {
           </div>
         )}
       </div>
-
+      {/* remove the below hardcoaded data and put the score array of the the user received from backend */}
       {isGraphModalOpen && <ScoreGraphModal scoreArray={[5,10,15,20,25,30]} showCrossBtn={true} showGoToDashBtn={false}/>}
 
       <DashFooter />

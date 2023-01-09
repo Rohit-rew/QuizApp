@@ -8,7 +8,7 @@ import { faRankingStar } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../../lib/contextAPI/userContext";
 
 // types 
-type quizType = {quizName : String}
+import { quizType } from "../../lib/types/type";
 type propTypes = {
     quiz : quizType
 }

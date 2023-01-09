@@ -7,15 +7,7 @@ import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 
 // types
-type quizType = {
-  quizName: string
-  totalQuestions : number
-  category : string
-  createdBy : string
-  _id: string
-  createdAt:string
-};
-
+import { quizType } from "../../lib/types/type";
 type propTypes = {
   quiz: quizType;
 };
