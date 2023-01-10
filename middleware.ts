@@ -84,6 +84,8 @@ export async function middleware(req: NextRequest, res: NextResponse) {
   }
 
   if(req.nextUrl.pathname.startsWith("/quiz")){
+    const data = req.url.split("/")
+    const quizId = encodeURIComponent(data[data.length-1])
     const tokenFromCookies = req.cookies.get("quizify")?.value;
     if (tokenFromCookies) { // if token in avaliable validate it
       const data = await jose.jwtVerify(tokenFromCookies, new TextEncoder().encode(secret));
@@ -97,12 +99,10 @@ export async function middleware(req: NextRequest, res: NextResponse) {
           return NextResponse.redirect(new URL("/", req.url));
       }
     } else {  // if token in not avaliable push to /accounts/userlgoin
-      return NextResponse.redirect(new URL("/accounts/userlogin", req.url));
+      return NextResponse.redirect(new URL(`/accounts/userlogin/?quizId=${quizId}`, req.url));
     }
 
   }
-
-
 
 
 } 

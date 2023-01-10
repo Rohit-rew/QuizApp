@@ -13,6 +13,7 @@ import axios from "axios";
 import { questionType } from "../../lib/questions";
 import QuizStarted from "../../components/Quiz/quizstarted";
 import { useCookies } from "react-cookie";
+import Error from "next/error";
 type quizType = {
   quizName : string
   totalQuestions :number
@@ -43,6 +44,8 @@ export default function Quiz() {
         setQuiz(quiz.data)
       } catch (error) {
         console.log(error)
+        Router.push("/404")
+        return <Error statusCode={404} />
       }
 
     }

@@ -166,7 +166,7 @@ export default function DisabledQuestionForm({question} : propTypes) {
 
       <div className="flex justify-between">
         <label htmlFor="diffLevel">Difficulty Level</label>
-        <select className="p-1" name="diffLevel" id="diffLevel" defaultValue={question.difficultyLevel}>
+        <select className="p-1" name="diffLevel" id="diffLevel" defaultValue={question.difficultyLevel} disabled>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>

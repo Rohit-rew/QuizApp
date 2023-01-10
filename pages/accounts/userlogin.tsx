@@ -11,7 +11,12 @@ import Router from "next/router";
 //cookies
 import { useCookies } from "react-cookie";
 
-export default function UserLogin() {
+// types
+type propTypes = {
+  query : {quizId : string} | null | undefined
+}
+
+export default function UserLogin({query} : propTypes) {
   const [emailError, setEmailError] = React.useState<null | String>(null);
   const [passError, setPassError] = React.useState<null | String>(null);
   const [cookie , setCookie] = useCookies()
@@ -40,7 +45,11 @@ export default function UserLogin() {
             sameSite: true,
             maxAge: 60*60*24,
           })
-          Router.push("/user/dashboard")
+          if(query){
+            Router.push(`/quiz/${query.quizId}`)
+          }else{
+            Router.push("/user/dashboard")
+          }
         }
       } catch (error) {
         console.log(error)
@@ -85,4 +94,17 @@ export default function UserLogin() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const query = context.query
+
+  if(!query){
+    return {
+      props : {}
+    }
+  }
+  return {
+    props : {query}
+  }
 }
