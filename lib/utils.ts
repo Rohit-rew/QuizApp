@@ -48,9 +48,9 @@ export const ansValidator = (
   export const ansArrayToObject = (data : number[])=>{
     let object = {1 : false , 2: false , 3: false , 4:false}
         for(let i = 0 ; i < data.length ; i++){
-            for(let item in obj){
+            for(let item in object){
                 if(data[i] == Number(item)){
-                    (obj as any)[Number(data[i])] = true
+                    (object as any)[Number(data[i])] = true
                 }
             }
         }

@@ -33,6 +33,7 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg }: propTypes) {
   >([]);
   const [addQuestionFormIsOpen , setAddQuestionForm] = React.useState<boolean>(false)
   const [addQuestionFormError , setAddQuestionFormError] = React.useState<string | null>(null)
+  const [questionLengthError , setQuestionLengthError] = React.useState<string | null>(null)
   const { closeCreateQuizModal } = React.useContext(createQuizContext);
 
 
@@ -46,7 +47,6 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg }: propTypes) {
     const option4 = e.currentTarget.option1.value
     const dificultyLevel = Number(e.currentTarget.diffLevel.value)
     let ans : number[] = []
-
     
     if(hasMultipleAns){
       ans = getAnsArray(selectedAnswers)
@@ -54,6 +54,7 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg }: propTypes) {
       ans = e.currentTarget.options.value
     }
     
+    // validation
     if(!ques || !option1 || !option2 || !option3 || !option4 || !dificultyLevel || !ans.length ){
       // send error
       setAddQuestionFormError("All fields are required")
@@ -75,9 +76,8 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg }: propTypes) {
         answer : [...ans],
         difficultyLevel : dificultyLevel
     }
-    console.log(question)
-    setAddedQuestions(preval=> [...preval , question])
-    setAddQuestionForm(false)
+    setAddedQuestions(preval=> [...preval , question]) // finally adds the question after validation
+    setAddQuestionForm(false) // close the form
   };
 
   return (

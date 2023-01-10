@@ -3,8 +3,6 @@ import { Inter } from "@next/font/google";
 
 // components imports
 import WelcomeView from "../components/login/welcomeView";
-import ScoreGraphModal from "../components/scoreGraphModal";
-import { CreateQuiz } from "../components/adminDash/createQuiz";
 
 export default function Home() {
   return (
@@ -16,8 +14,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="background-gradient">
-        {/* <WelcomeView /> */}
-        <CreateQuiz />
+        <WelcomeView />
       </main>
     </>
   );
