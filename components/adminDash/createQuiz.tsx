@@ -18,13 +18,17 @@ import { questionType } from "../../lib/questions";
 
 export function CreateQuiz() {
     const [nameErrMsg, setNameErrMsg] = React.useState<String | null>(null);
+    const [questionLengthErrorMsg , setQuestionLengthErrorMsg] = React.useState<string | null>(null)
     const { setCreateQuizModal } = React.useContext(createQuizContext);
     const [cookies, setCookies] = useCookies(["quizify"]);
   
     const createQuiz = async (quizName : string , questionSet : questionType[]) => {
 
       const totalQuestions = questionSet.length;
-  
+      if(totalQuestions !== 10){
+        setQuestionLengthErrorMsg("Please provide 10 questions")
+        return
+      }
       if (quizName && totalQuestions) {
         const createQuizBody = {
           quizName: quizName,
@@ -73,7 +77,7 @@ export function CreateQuiz() {
   
     return (
       <div className="quizcreateModal absolute w-full min-h-screen  bg-black bg-opacity-80 box-border p-5 flex justify-center items-center overflow-scroll">
-        <CreateQuizModal createQuiz={createQuiz} nameErrMsg={nameErrMsg} />
+        <CreateQuizModal createQuiz={createQuiz} nameErrMsg={nameErrMsg} questionLengthErrorMsg={questionLengthErrorMsg}/>
       </div>
     );
   }

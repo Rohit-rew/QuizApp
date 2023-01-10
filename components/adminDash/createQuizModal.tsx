@@ -22,18 +22,16 @@ type createQuizFunc = (quizName: string, questionSet: questionType[]) => void;
 type propTypes = {
   createQuiz: createQuizFunc;
   nameErrMsg: errorMsg;
+  questionLengthErrorMsg : errorMsg
 };
 
 // function component starts
-export default function CreateQuizModal({ createQuiz, nameErrMsg }: propTypes) {
+export default function CreateQuizModal({ createQuiz, nameErrMsg, questionLengthErrorMsg }: propTypes) {
 
   const [quizName, setQuizName] = React.useState("");
-  const [addedQuestions, setAddedQuestions] = React.useState<
-    questionType[] | []
-  >([]);
+  const [addedQuestions, setAddedQuestions] = React.useState<questionType[] | []>([]);
   const [addQuestionFormIsOpen , setAddQuestionForm] = React.useState<boolean>(false)
   const [addQuestionFormError , setAddQuestionFormError] = React.useState<string | null>(null)
-  const [questionLengthError , setQuestionLengthError] = React.useState<string | null>(null)
   const { closeCreateQuizModal } = React.useContext(createQuizContext);
 
 
@@ -42,9 +40,9 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg }: propTypes) {
     setAddQuestionFormError(null)
     const ques = e.currentTarget.question.value
     const option1 = e.currentTarget.option1.value
-    const option2 = e.currentTarget.option1.value
-    const option3 = e.currentTarget.option1.value
-    const option4 = e.currentTarget.option1.value
+    const option2 = e.currentTarget.option2.value
+    const option3 = e.currentTarget.option3.value
+    const option4 = e.currentTarget.option4.value
     const dificultyLevel = Number(e.currentTarget.diffLevel.value)
     let ans : number[] = []
     
@@ -76,6 +74,7 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg }: propTypes) {
         answer : [...ans],
         difficultyLevel : dificultyLevel
     }
+    console.log(question)
     setAddedQuestions(preval=> [...preval , question]) // finally adds the question after validation
     setAddQuestionForm(false) // close the form
   };
@@ -85,13 +84,13 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg }: propTypes) {
       id="quizCreateForm"
       className="quizCreateForm w-full max-w-md bg-white rounded-xl shadow p-5 flex flex-col justify-between gap-5 relative"
     >
-      <FontAwesomeIcon
+      <FontAwesomeIcon // close button
         onClick={() => closeCreateQuizModal()}
         className="absolute right-3 top-3 text-2xl"
         icon={faClose}
       />
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2">  
         <label className="text-bold text-xl">Name Of Quiz*</label>
         <input
           className="border border-gray-400 rounded h-10 px-2"
@@ -119,13 +118,15 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg }: propTypes) {
 
       
 
-      <FontAwesomeIcon
+      <FontAwesomeIcon // add question icon
       onClick={()=>setAddQuestionForm(true)}
         icon={faAdd}
         className="bg-green-500 shadow-md rounded-full text-xl w-5 p-2 text-white self-center"
       />
 
-      <button
+      {questionLengthErrorMsg && <p className="text-red-500 text-sm">{questionLengthErrorMsg}</p>}
+
+      <button // create quiz button
         onClick={() => createQuiz(quizName, addedQuestions)}
         disabled={addedQuestions.length ? false : true}
         className={`${

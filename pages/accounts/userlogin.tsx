@@ -10,6 +10,7 @@ import Router from "next/router";
 
 //cookies
 import { useCookies } from "react-cookie";
+import { GetServerSidePropsContext } from "next/types";
 
 // types
 type propTypes = {
@@ -95,7 +96,7 @@ export default function UserLogin({query} : propTypes) {
   );
 }
 
-export async function getServerSideProps(context ) {
+export async function getServerSideProps(context: GetServerSidePropsContext ) {
   const query = context.query
 
   if(!query){

@@ -35,7 +35,7 @@ export default function AdminDash() {
   const [quizes , setQuiz] = React.useState([]);
   // context consumed
   const { createQuizModalOpen } = React.useContext(createQuizContext);
-  console.log(quizes)
+  
   React.useEffect(() => {
     async function getAdminDataFromCookies() {
       const jwt = cookies.quizify;

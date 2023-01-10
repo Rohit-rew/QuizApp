@@ -19,11 +19,13 @@ type propTypes = {
 export default function AddQuestionForm({ addQuestion , addQuestionFormError }: propTypes) {
   const [hasMultipleAns, setHasMultipleAns] = React.useState(false);
   const [selectedAnswers, setSelectedAnswers] = React.useState<selectionType>({
-    1: true,
+    1: false,
     2: false,
     3: false,
     4: false,
   });
+
+  console.log(selectedAnswers)
 
   return (
     <form
