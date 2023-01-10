@@ -14,9 +14,10 @@ type propTypes = {
     selectedAnswers: selectionType
   ) => void;
   addQuestionFormError : string | null
+  difficultyOptions : number[]
 };
 
-export default function AddQuestionForm({ addQuestion , addQuestionFormError }: propTypes) {
+export default function AddQuestionForm({ addQuestion , addQuestionFormError , difficultyOptions }: propTypes) {
   const [hasMultipleAns, setHasMultipleAns] = React.useState(false);
   const [selectedAnswers, setSelectedAnswers] = React.useState<selectionType>({
     1: false,
@@ -157,16 +158,7 @@ export default function AddQuestionForm({ addQuestion , addQuestionFormError }: 
       <div className="flex justify-between">
         <label htmlFor="diffLevel">Difficulty Level</label>
         <select className="p-1" name="diffLevel" id="diffLevel">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
+          {difficultyOptions.map((option , i)=><option key={i} value={option}>{option}</option>)}
         </select>
       </div>
 

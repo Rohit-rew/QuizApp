@@ -32,6 +32,7 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg, questionLength
   const [addedQuestions, setAddedQuestions] = React.useState<questionType[] | []>([]);
   const [addQuestionFormIsOpen , setAddQuestionForm] = React.useState<boolean>(false)
   const [addQuestionFormError , setAddQuestionFormError] = React.useState<string | null>(null)
+  const [difficultyOptions , setDifficultyOptions] = React.useState([1,2,3,4,5,6,7,8,9,10])
   const { closeCreateQuizModal } = React.useContext(createQuizContext);
 
 
@@ -75,6 +76,9 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg, questionLength
         difficultyLevel : dificultyLevel
     }
     console.log(question)
+    setDifficultyOptions(preval=>{
+      return preval.filter(item=>item!=dificultyLevel)
+    })
     setAddedQuestions(preval=> [...preval , question]) // finally adds the question after validation
     setAddQuestionForm(false) // close the form
   };
@@ -107,7 +111,7 @@ export default function CreateQuizModal({ createQuiz, nameErrMsg, questionLength
       })}
 
       {/* add question form */}
-      {addQuestionFormIsOpen && <AddQuestionForm addQuestion={addQuestion} addQuestionFormError={addQuestionFormError}/>}  
+      {addQuestionFormIsOpen && <AddQuestionForm addQuestion={addQuestion} addQuestionFormError={addQuestionFormError} difficultyOptions={difficultyOptions}/>}  
 
       <h2 className="text-center">
         Total Questions Added : {addedQuestions.length}

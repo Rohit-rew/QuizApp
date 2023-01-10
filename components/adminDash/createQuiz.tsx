@@ -26,7 +26,7 @@ export function CreateQuiz() {
 
       const totalQuestions = questionSet.length;
       if(totalQuestions !== 10){
-        setQuestionLengthErrorMsg("Please provide 10 questions")
+        setQuestionLengthErrorMsg("Please provide exactly 10 questions")
         return
       }
       if (quizName && totalQuestions) {
@@ -49,13 +49,11 @@ export function CreateQuiz() {
             }
           );
           // close quiz modal
-          console.log(response)
           setCreateQuizModal(false)
         } catch (error) {
           if(error instanceof AxiosError){
             setNameErrMsg(error.response?.data.message)
           }
-          console.log(error)
         }
       } else if (!quizName) {
         setNameErrMsg("Name cannot be empty");

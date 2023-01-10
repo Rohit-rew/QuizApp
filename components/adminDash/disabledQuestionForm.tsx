@@ -92,11 +92,11 @@ export default function DisabledQuestionForm({question} : propTypes) {
       {!hasMultipleAns && (
         <div className="flex justify-between">
           <label htmlFor="options">Select your answer</label>
-          <select className="p-1" name="options" id="options" disabled defaultValue={"asd"}>
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-            <option value="4">Option 4</option>
+          <select className="p-1" name="options" id="options" disabled >
+            <option value="1" selected={question.answer[0]==1 ? true : false}>Option 1</option>
+            <option value="2" selected={question.answer[0]==2 ? true : false}>Option 2</option>
+            <option value="3" selected={question.answer[0]==3 ? true : false}>Option 3</option>
+            <option value="4" selected={question.answer[0]==4 ? true : false}>Option 4</option>
           </select>
         </div>
       )}
