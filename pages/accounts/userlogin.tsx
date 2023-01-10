@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { Context, ContextType } from "react";
 
 //components
 import LoginForm from "../../components/login/loginForm";
@@ -20,7 +20,6 @@ export default function UserLogin({query} : propTypes) {
   const [emailError, setEmailError] = React.useState<null | String>(null);
   const [passError, setPassError] = React.useState<null | String>(null);
   const [cookie , setCookie] = useCookies()
-
 
   const loginUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,7 +44,7 @@ export default function UserLogin({query} : propTypes) {
             sameSite: true,
             maxAge: 60*60*24,
           })
-          if(query){
+          if(query?.quizId){
             Router.push(`/quiz/${query.quizId}`)
           }else{
             Router.push("/user/dashboard")
@@ -96,7 +95,7 @@ export default function UserLogin({query} : propTypes) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context ) {
   const query = context.query
 
   if(!query){
