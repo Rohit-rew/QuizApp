@@ -23,7 +23,7 @@ export function CreateQuiz() {
     const [cookies, setCookies] = useCookies(["quizify"]);
   
     const createQuiz = async (quizName : string , questionSet : questionType[]) => {
-
+      console.log(questionSet.sort((a , b)=> a.difficultyLevel - b.difficultyLevel))
       const totalQuestions = questionSet.length;
       if(totalQuestions !== 10){
         setQuestionLengthErrorMsg("Please provide exactly 10 questions")
@@ -60,18 +60,18 @@ export function CreateQuiz() {
       }
     };
   
-    // To close the modal when we click away from the modal (outfocus)   =>uncomment the below code
-    // React.useState(() => {
-    //   window.addEventListener("click", (e) =>
-    //     handleClickEvent(e, setCreateQuizModal, ".quizcreateModal")
-    //   );
+    // To close the modal when we click away from the modal (outfocus) 
+    React.useState(() => {
+      window.addEventListener("click", (e) =>
+        handleClickEvent(e, setCreateQuizModal, ".quizcreateModal")
+      );
   
-    //   return () => {
-    //     window.removeEventListener("click", (e) =>
-    //       handleClickEvent(e, setCreateQuizModal, ".quizcreateModal")
-    //     );
-    //   };
-    // });
+      return () => {
+        window.removeEventListener("click", (e) =>
+          handleClickEvent(e, setCreateQuizModal, ".quizcreateModal")
+        );
+      };
+    });
   
     return (
       <div className="quizcreateModal absolute w-full min-h-screen  bg-black bg-opacity-80 box-border p-5 flex justify-center items-center overflow-scroll">
